@@ -1,0 +1,8 @@
+huyaminiapp:
+  appId: 1ce9d9
+  secret: 682511be9799bb5153490402d4
+  deliverBaseUrl: https://apiext.huya.com/message
+  extId: uc8111
+
+server:
+  port: 8082
