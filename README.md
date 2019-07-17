@@ -46,10 +46,10 @@
 
 消息：
 
-| 消息名    | 描述                                                   | 监听端     |
-| --------- | ------------------------------------------------------ | ---------- |
-| GAMESTART | 直播间广播消息，主播开始游戏的时候触发该事件，刷新界面 | 观众       |
-| POINT     | 任意一方下子的时候触发该事件，推送下子的位置           | 主播，观众 |
+| 消息名   | 描述                                                   | 监听端     |
+| -------- | ------------------------------------------------------ | ---------- |
+| ROOMOPEN | 直播间广播消息，主播开始游戏的时候触发该事件，刷新界面 | 观众       |
+| POINT    | 任意一方下子的时候触发该事件，推送下子的位置           | 主播，观众 |
 
 ## Web端开发
 
@@ -66,7 +66,7 @@ web端包括pc主播端和web观众端，两个入口分别是`streamer.html`和
           stepNumber: step,
           xIsNext: (step % 2) === 0,
         });
-        hyExt.observer.emit('GAMESTART', 'GAMESTART');
+        hyExt.observer.emit('ROOMOPEN', 'ROOMOPEN');
       }  
 ```
 
@@ -152,7 +152,7 @@ handleClick(i) {
 
 **观众端主要逻辑：**
 
-1.监听POINT事件
+1.监听	`POINT`消息和`ROOMOPEN`消息
 
 2.处理主播下子的信息
 
@@ -183,7 +183,7 @@ handleClick(i) {
 
 ![010](https://raw.githubusercontent.com/wiki/huya-ext/miniapp/images/dev/pc/010.png)
 
-接下来模拟消息推送，推送GAMESTART事件：
+接下来模拟消息推送，推送ROOMOPEN事件：
 
 ![6](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/6.png )
 
