@@ -4,7 +4,7 @@
 
 到[虎牙小程序官网](https://ext.huya.com)
 
-![1](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/1.png )
+![1](image/1.png )
 
 创建小程序，得到以下信息：
 
@@ -25,9 +25,9 @@
 
 使用脚手架创建两个项目`Tic-Tac-Toe-Web`和`Tic-Tac-Toe-App`，分别选择react和react-native
 
-![2](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/2.png )
+![2](image/2.png )
 
-![3](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/3.png )
+![3](image/3.png )
 
 ## 自定义消息
 
@@ -177,7 +177,7 @@ handleClick(i) {
 设置好之后点击修改，刷新页面
 
 看到新小程序，点击之后看到观众端的界面：
-![5](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/5.png )
+![5](image/5.png )
 
 点击下子会弹出发送请求的界面，这里可以模拟接口返回的信息，也可以选择直接发送到EBS。
 
@@ -185,7 +185,7 @@ handleClick(i) {
 
 接下来模拟消息推送，推送ROOMOPEN事件：
 
-![6](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/6.png )
+![6](image/6.png )
 
 #### 主播端调试
 
@@ -193,13 +193,13 @@ handleClick(i) {
 
 同样的，配置和小程序路径和小程序Token，然后点击加载，
 
-![7](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/7.png )
+![7](image/7.png )
 
 
 
 接下来点击消息，模拟POINT消息推送
 
-![8](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/8.png )
+![8](image/8.png )
 
 
 
@@ -209,13 +209,13 @@ handleClick(i) {
 
 回到虎牙小程序官网，进行程序测试，配置好观众端和主播端入口，上传zip文件：
 
-![9](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/9.png)
+![9](image/9.png)
 
 提交测试，配置主播和观众白名单，白名单内的主播和观众就可以看到该小程序了。
 
-![10](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/10.png)
+![10](image/10.png)
 
-![11](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/11.png )
+![11](image/11.png )
 
 
 
@@ -250,7 +250,7 @@ App端包括观众端App和主播的直播助手App，使用React-Native开发�
 
 5. 点击下子发送请求到Ebs
 
-   ![14](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/14.jpg )
+   ![14](image/14.jpg )
 
 #### 主播端调试
 
@@ -259,7 +259,7 @@ App端包括观众端App和主播的直播助手App，使用React-Native开发�
 3. 和观众端调试一样，设置好自定义token
 4. 发送请求到Ebs
 
-![15](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/15.jpg )
+![15](image/15.jpg )
 
 调试过程中可能遇到的问题：
 
@@ -274,13 +274,13 @@ App端包括观众端App和主播的直播助手App，使用React-Native开发�
 
 回到虎牙小程序官网，进行程序测试，配置好观众端（App，Web）和主播端（PC,虎牙直播助手APP）入口，上传zip文件：
 
-![16](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/16.png )
+![16](image/16.png )
 
 提交测试，配置主播和观众白名单，白名单内的主播和观众就可以看到该小程序了。
 
-![12](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/12.jpg )
+![12](image/12.jpg )
 
-![13](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/13.jpg )
+![13](image/13.jpg )
 
 
 
