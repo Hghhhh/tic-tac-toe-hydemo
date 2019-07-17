@@ -195,6 +195,8 @@ handleClick(i) {
 
 ![7](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/7.png )
 
+
+
 接下来点击消息，模拟POINT消息推送
 
 ![8](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/8.png )
@@ -207,11 +209,11 @@ handleClick(i) {
 
 回到虎牙小程序官网，进行程序测试，配置好观众端和主播端入口，上传zip文件：
 
-![9](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/9.png )
+![9](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/9.png)
 
 提交测试，配置主播和观众白名单，白名单内的主播和观众就可以看到该小程序了。
 
-![10](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/10.png )
+![10](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/10.png)
 
 ![11](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/11.png )
 
