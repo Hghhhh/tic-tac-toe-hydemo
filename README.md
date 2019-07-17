@@ -17,7 +17,7 @@
 
 - 小程序id
 
-*后台开发如果想调用小程序OpenAPI的话需要使用到这些信息*
+*后台开发如果想调用小程序API的话需要使用到这些信息*
 
 # 开发
 
@@ -27,7 +27,7 @@
 
 ![2](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/2.png )
 
-![2](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/2.png )
+![3](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/3.png )
 
 ## 自定义消息
 
@@ -36,8 +36,8 @@
 这里用到了sdk接口：
 
 - [hyExt.observer.on](https://github.com/huya-ext/miniapp/wiki/hyExt.observer.on)：监听消息
-
 - [hyExt.observer.emit](https://github.com/huya-ext/miniapp/wiki/hyExt.observer.emit)：主播端触发消息
+- [hyExt.requestEbs](https://github.com/huya-ext/miniapp/wiki/hyExt.requestEbs):调用后台接口
 
 和小程序API：
 
@@ -46,18 +46,18 @@
 
 消息：
 
-| 消息名    | 描述                         | 监听端     |
-| --------- | ---------------------------- | ---------- |
-| GAMESTART | 主播开始游戏的时候触发该事件 | 观众       |
-| POINT     | 任意一方下子的时候触发该事件 | 主播，观众 |
+| 消息名    | 描述                                                   | 监听端     |
+| --------- | ------------------------------------------------------ | ---------- |
+| GAMESTART | 直播间广播消息，主播开始游戏的时候触发该事件，刷新界面 | 观众       |
+| POINT     | 任意一方下子的时候触发该事件，推送下子的位置           | 主播，观众 |
 
 ## Web端开发
 
-web端包括pc主播端和web观众端，两个入口分别是`streamer.html`和`index.html`
+web端包括pc主播端和web观众端，两个入口分别是`streamer.html`和`index.html`，在`streamerApp.js`和`app.js`写主播端和观众端的逻辑
 
 **主播端主要逻辑：**
 
-1.点击开始触发GAMESTART事件
+1.点击开始触发ROOMOPEN事件:
 
 ```js
 <button onClick={() => this.startNotice(0)}>开始</button>
@@ -70,9 +70,7 @@ web端包括pc主播端和web观众端，两个入口分别是`streamer.html`和
       }  
 ```
 
-
-
-2.自定义POINT事件，监听POINT事件，消息内容是观众端下子的位置
+2.自定义POINT事件，监听POINT事件，消息内容是观众端下子的位置:
 
 ```js
 class Game extends React.Component {
@@ -93,8 +91,6 @@ class Game extends React.Component {
 
     }
 ```
-
-
 
 3.处理观众端下子的信息：
 
@@ -143,7 +139,7 @@ handleClick(i) {
       port: 8082,
       path: '/point',
       httpMethod: 'POST',
-      param: { 'x':i}
+      param: { 'x':i+""}  {/*这里必须是string类型的，不然会出现错误!!!*/}
     }).then(({ res, msg, ebsResponse: { entity, statusCode, header } }) => {
       hyExt.logger.info(statusCode)
     }).catch(err => {
@@ -151,8 +147,6 @@ handleClick(i) {
     });
   }
 ```
-
-
 
 
 
@@ -170,13 +164,13 @@ handleClick(i) {
 
 ### Web端开发调试
 
-代码完成之后，运行`hyext run dev`
+代码完成之后，运行`hyext run dev`，可以在浏览器打开`localhost:8080`和`localhost:8080/streamer.html`看到界面
 
 #### 观众端调试
 
 使用[开发工具](http://hyext.msstatic.com/hy-ext-comp/1.2.0/dev/index.html)调试观众端页面
 
-页面的右边设置好小程序路径`http://localhost:8080`（这里必须要加上http://，否则会打不开）
+页面的右边设置好小程序路径`http://localhost:8080`（**这里必须要加上http://，否则会打不开**）
 
 如果后端做了token的验证，这里可以选择自定义token，然后让后端给一个测试token放上去。
 
@@ -223,7 +217,7 @@ handleClick(i) {
 
 
 
-### Web端开发过程发现的一些小问题
+### Web端开发过程的问题
 
 1. 小程序API，[deliverRoomByProfileId](https://github.com/huya-ext/miniapp/wiki/deliverRoomByProfileId)直播间广播，只广播给观众，不包括主播，刚开始会以为这个广播事件会通知到主播和观众
 
@@ -240,22 +234,60 @@ handleClick(i) {
 
 ## App端开发
 
-app端包括观众端App和主播的直播助手App，使用React-Native开发。只需在原来react的代码上修改一下样式和标签即可，逻辑和Web端一样。
+App端包括观众端App和主播的直播助手App，使用React-Native开发。只需在原来react的代码上修改一下样式和标签即可，逻辑和Web端一样。另外，使用虎牙的脚手架开发，无需安装安卓或ios的环境，直接写好代码，使用虎牙脚手架运行，然后使用开发工具扫码即可调试。
 
 ### App端调试
 
-APP端调试比较繁琐，
+#### 观众端调试
 
-1. 安装[调试App](https://github.com/huya-ext/miniapp/wiki/DownloadApp),也就是虎牙直播的开发者版本，如果手机上已经安装了虎牙直播，需要把原来安装的卸载。
-2. 分别执行`hyext run dev`和`hyext run dev streamer`，执行成功后会看到一个二维码
+1. 安装[调试App](https://github.com/huya-ext/miniapp/wiki/DownloadApp),也就是虎牙直播的开发者版本，如果手机上已经安装了虎牙直播，需要把原来的先卸载。
+2. 执行`hyext run dev`执行成功后会看到一个二维码
 3. 使用开发工具扫描二维码，弹出调试界面
-4. 模拟发送请求到后台服务器，模拟触发消息
+
+4. 和Web端一样设置好token之后，选择使用自定义token
+
+5. 点击下子发送请求到Ebs
+
+   ![14](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/14.jpg )
+
+#### 主播端调试
+
+1. 安装虎牙直播助手
+2. 执行`hyext run dev streamer`，使用直播助手扫码，弹出调试界面
+3. 和观众端调试一样，设置好自定义token
+4. 发送请求到Ebs
+
+![15](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/15.jpg )
+
+调试过程中可能遇到的问题：
+
+1. 先保证本地的8081端口没有被占用，`hyext run dev`可以启动
+2. 第一次扫码可能会出现红屏，点击重载即可
+3. 可以点击远程调试，浏览器弹出调试界面，按F12在本地看到调试的信息
+4. 如果遇到其他错误可以及时到[开发群]([https://github.com/huya-ext/miniapp/wiki/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC](https://github.com/huya-ext/miniapp/wiki/联系我们))里提问
+
+### 提交测试
+
+调试完毕之后，运行`hyext release`，目录下会生成一个app文件夹，将该文件夹和之前的web文件夹打包为zip压缩包。
+
+回到虎牙小程序官网，进行程序测试，配置好观众端（App，Web）和主播端（PC,虎牙直播助手APP）入口，上传zip文件：
+
+![16](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/16.png )
+
+提交测试，配置主播和观众白名单，白名单内的主播和观众就可以看到该小程序了。
+
+![12](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/12.jpg )
+
+![13](https://3116004636-1256103796.cos.ap-guangzhou.myqcloud.com/huyaminiapp/13.jpg )
+
+
 
 ### App端开发过程的问题
 
-1. App开发调试工具不太好用，安卓现在的版本发送不出去请求到后台服务器，也触发不了消息
-
-2. App调试工具版本过低，如果把小程序发布到线上测试，使用App调试工具访问会提示版本过低访问不了
+1. App调试工具不太好用
+2. 虎牙直播App调试工具版本过低，如果把小程序发布到线上测试，使用App调试工具访问会提示版本过低访问不了
+3. App调试工具扫码第一遍可能是红屏，重载一下就好了
+4. **发送Ebs请求的参数必须是string类型的，否则会出现错误**
 
 
 
@@ -283,7 +315,7 @@ APP端调试比较繁琐，
 5. 将应用发布到服务器上
 6. 配置域名解析
 
-### 后台开发过程中的一些问题
+### 后台开发过程中的问题
 
 1. 小程序目前只支持http而不支持https，改用http的配置
 2. 使用小程序API需要申请权限，不然推送不了消息
@@ -292,6 +324,4 @@ APP端调试比较繁琐，
 
 
 
-
-代码地址：
 

@@ -30,16 +30,22 @@ public class MessageController {
     }
     */
 
-    @PostMapping(value = "/point")
-    public void point(HttpServletRequest request,@RequestBody String point){
-        Point xy = JsonUtil.parseJsonWithGson(point, Point.class);
+     @PostMapping(value = "/point")
+    public void point(HttpServletRequest request,String x){
+        System.out.println("  **************             "+          x+"           ******************** ");
+
+        if(x.contains((","))){
+           x =  x.split(",")[0];
+        }
+
+       // Point xy = JsonUtil.parseJsonWithGson(point, Point.class);
         JwtPlayload userInfo = (JwtPlayload) request.getAttribute("userInfo");
         System.out.println(userInfo);
         if(userInfo.getRole().equals("U")){
-            deliverService.deliverByProfileId(userInfo.getProfileId(),"POINT",xy.getX()+"",jwtUtil.issueJwt((int)(System.currentTimeMillis()/1000),userInfo.getRole(),userInfo.getProfileId(),
+            deliverService.deliverByProfileId(userInfo.getProfileId(),"POINT",x,jwtUtil.issueJwt((int)(System.currentTimeMillis()/1000),userInfo.getRole(),userInfo.getProfileId(),
                     userInfo.getRoomId(),userInfo.getUserId()));
         }else
-            deliverService.deliverRoomByProfileId(userInfo.getProfileId(),"POINT",xy.getX()+"",jwtUtil.issueJwt((int)(System.currentTimeMillis()/1000),userInfo.getRole(),userInfo.getProfileId(),
+            deliverService.deliverRoomByProfileId(userInfo.getProfileId(),"POINT",x,jwtUtil.issueJwt((int)(System.currentTimeMillis()/1000),userInfo.getRole(),userInfo.getProfileId(),
                 userInfo.getRoomId(),userInfo.getUserId()));
     }
 

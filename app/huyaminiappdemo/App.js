@@ -123,7 +123,7 @@ export default class huyaminiappdemo extends Component {
       const current = history[history.length - 1];
       const squares = current.squares.slice();
       const xIsNext = this.state.xIsNext;
-      if (this.calculateWinner(squares) || squares[i] || !xIsNext) {
+      if (this.calculateWinner(squares) || squares[i] ) {
           return;
       }
       squares[i] = this.state.xIsNext ? 'O' : 'X';
@@ -134,13 +134,14 @@ export default class huyaminiappdemo extends Component {
       stepNumber:history.length,
       xIsNext: !this.state.xIsNext,
       });
+      hyExt.logger.info(i);
       hyExt.requestEbs({
         header: { 'x-header': 'foo' },
         host: 'www.guohanghuang.cn',
         port: 8082,
-        path: '/point',
+        path: '/point?x='+i,
         httpMethod: 'POST',
-        param: { 'x':i}
+        param: { 'x':""+i}
       }).then(({ res, msg, ebsResponse: { entity, statusCode, header } }) => {
         hyExt.logger.info(statusCode)
       }).catch(err => {

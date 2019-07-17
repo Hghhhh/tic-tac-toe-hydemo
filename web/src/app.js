@@ -120,9 +120,8 @@ import './index.css'
           header: { 'x-header': 'foo' },
           host: 'www.guohanghuang.cn',
           port: 8082,
-          path: '/point',
-          httpMethod: 'POST',
-          param: { 'x':i}
+          path: '/point?x='+i,
+          httpMethod: 'POST'
         }).then(({ res, msg, ebsResponse: { entity, statusCode, header } }) => {
           hyExt.logger.info(statusCode)
         }).catch(err => {

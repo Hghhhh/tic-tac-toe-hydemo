@@ -1,38 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View,Button, Image,StyleSheet } from 'react-native';
-import hyExt from 'hyliveext-rn-sdk';
-{/*
-export default class huyaminiappdemoStreamer extends Component {
-    constructor(initialProps) {
-        super();
-    }
-
-    componentWillMount() {
-    }
-
-    componentDidMount() {
-    }
-
-    render() {
-        return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center"}}>
-                <Text>Hello World!</Text>
-            </View>
-        )
-    }
-}
-*/}
-
+import {  View,Button,Text,StyleSheet } from 'react-native';
+import hyExt from 'hyext-rn-sdk';
 
 class Square extends Component{
   render(){
     return (
-      <Button onPress={this.props.onClick} title={this.props.value}/>
+      <Button style={styles.square} onPress={this.props.onClick} title={this.props.value}>
+      </Button>
     );
   }
 }
 
- 
 
 class Board extends Component {
 
@@ -43,8 +21,9 @@ class Board extends Component {
   render() {
     return (
       <View style={{
+
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
       }}>
       <View style={{flexDirection: 'row'}}>
         <View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} >
@@ -84,7 +63,7 @@ class Board extends Component {
   }
 }
 
-export default class huyaminiappdemoStreamer extends Component {  
+export default class huyaminiappdemo extends Component {  
     constructor(props){
       super(props);
       this.state={
@@ -95,6 +74,10 @@ export default class huyaminiappdemoStreamer extends Component {
           xIsNext:true,
       };
       hyExt.logger.info('开始加载');       
+      hyExt.observer.on('ROOMOPEN', ROOMOPEN => {
+        hyExt.logger.info(ROOMOPEN);  
+        this.jumpTo(0);
+      });
       hyExt.observer.on('POINT', point => {
         hyExt.logger.info('point');
         this.handleClick2(point);
@@ -118,7 +101,7 @@ export default class huyaminiappdemoStreamer extends Component {
       }
     }
     return null;
-  }  
+  }
   handleClick2(i) {
     const history = this.state.history.slice(0,this.state.stepNumber+1);
     const current = history[history.length - 1];
@@ -126,7 +109,7 @@ export default class huyaminiappdemoStreamer extends Component {
     if (this.calculateWinner(squares) || squares[i]) {
         return;
     }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    squares[i] = this.state.xIsNext ? 'O' : 'X';
     this.setState({
     history: history.concat([{
         squares: squares,
@@ -140,10 +123,10 @@ export default class huyaminiappdemoStreamer extends Component {
       const current = history[history.length - 1];
       const squares = current.squares.slice();
       const xIsNext = this.state.xIsNext;
-      if (this.calculateWinner(squares) || squares[i]) {
+      if (this.calculateWinner(squares) || squares[i] ) {
           return;
       }
-      squares[i] = this.state.xIsNext ? 'X' : 'O';
+      squares[i] = this.state.xIsNext ? 'O' : 'X';
       this.setState({
       history: history.concat([{
           squares: squares,
@@ -158,7 +141,7 @@ export default class huyaminiappdemoStreamer extends Component {
         port: 8082,
         path: '/point?x='+i,
         httpMethod: 'POST',
-        param: { 'x':""+i}
+        param: { 'x':i}
       }).then(({ res, msg, ebsResponse: { entity, statusCode, header } }) => {
         hyExt.logger.info(statusCode)
       }).catch(err => {
@@ -171,13 +154,7 @@ export default class huyaminiappdemoStreamer extends Component {
         xIsNext: (step % 2) === 0,
       });
     }
-    startNotice(step) {
-        this.setState({
-          stepNumber: step,
-          xIsNext: (step % 2) === 0,
-        });
-        hyExt.observer.emit('ROOMOPEN', 'ROOMOPEN');
-      }
+    
   render() {
       const history = this.state.history;
       const moves = history.map((step, move) => {
@@ -186,7 +163,9 @@ export default class huyaminiappdemoStreamer extends Component {
             'Go to game start';
           return (
             <li key={move}>
-              <Button onPress={() => this.jumpTo(move)} title={desc}/>
+              <Button onPress={() => this.jumpTo(move)}>
+              {desc}
+              </Button>
             </li>
           );
         });
@@ -196,21 +175,21 @@ export default class huyaminiappdemoStreamer extends Component {
       if (winner) {
           status = 'Winner: ' + winner;
       } else {
-          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+          status = 'Next player: ' + (this.state.xIsNext ? 'O' : 'X');
       }
     return (
       <View>
-        <View>
+        <View >
           <Board onClick={(i)=>this.handleClick(i)} squares={current.squares}/>
         </View>
-        <View>
-          <Text>{status}</Text>   
-          <Button onPress={() => this.startNotice(0)} title="开始"/>
+        <View >
+          <Text>{status}</Text>
         </View>
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
 

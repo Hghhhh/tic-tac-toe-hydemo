@@ -158,7 +158,7 @@ export default class huyaminiappdemoStreamer extends Component {
         port: 8082,
         path: '/point?x='+i,
         httpMethod: 'POST',
-        param: { 'x':""+i}
+        param: { 'x':i}
       }).then(({ res, msg, ebsResponse: { entity, statusCode, header } }) => {
         hyExt.logger.info(statusCode)
       }).catch(err => {
